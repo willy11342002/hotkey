@@ -1,0 +1,11 @@
+# 螢幕截圖、圖像辨識
+opencv-python
+pyautogui
+
+# UI 相關
+pygubu
+pybugu-designer
+
+# 系統操作
+keyboard
+pywin32
