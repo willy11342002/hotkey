@@ -80,14 +80,7 @@ class Sticker(object):
         self.to_upper_first()
         self.page = 'emoji'
 
-    def switch_upper_page(self):
-        '''切換上方貼圖頁/表情貼頁'''
-        if self.page == 'emoji':
-            self.sticker_page()
-        else:
-            self.emoji_page()
-
-    def switch_bottom_page(self):
+    def switch_page(self):
         if not self.check_window_is_line():
             return
         
