@@ -12,9 +12,9 @@ class Sticker(object):
 
     def start(self):
         '''開啟貼圖視窗'''
-        # 檢查LINE主視窗不啟用(需要聊天室窗才啟用)
         hwnd = win32gui.GetForegroundWindow()
-        if hwnd == self.mainwindow:
+        # 檢查LINE主視窗不啟用(需要聊天室窗才啟用)
+        if self.get_page_title() != 'Chat':
             return
         # 開啟視窗並最大化
         self.open_sticker_window()
@@ -24,15 +24,23 @@ class Sticker(object):
         self.maximize_top_window()
         self.emoji_page()
 
-    def check_window_is_line(self):
-        '''檢查是否是LINE相關的視窗'''
+    def get_page_title(self):
+        '''讀取最上層視窗，回傳以下內容["Line", "Sticker", "Chat", False]'''
         hwnd = win32gui.GetForegroundWindow()
+        title = win32gui.GetWindowText(hwnd).strip()
         cls = win32gui.GetClassName(hwnd)
-        return cls == self.target_class
+        if hwnd == self.mainwindow:
+            return 'Line'
+        elif title == 'LINE':
+            return 'Sticker'
+        elif cls == self.target_class:
+            return 'Chat'
+        else:
+            return False
 
     def open_sticker_window(self):
         '''點開貼圖畫面'''
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Chat':
             return
 
         with pyautogui.hold('ctrl'):
@@ -40,29 +48,16 @@ class Sticker(object):
 
     def maximize_top_window(self):
         '''最大化最上層視窗'''
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         hwnd = win32gui.GetForegroundWindow()
         win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
         self.to_upper_first()
 
-    def shot_top_window(self):
-        '''截圖最上層視窗'''
-        if not self.check_window_is_line():
-            return
-
-        hwnd = win32gui.GetForegroundWindow()
-        region = list(win32gui.GetWindowRect(hwnd))
-        region[2] -= region[0]
-        region[3] -= region[1]
-        img = pyautogui.screenshot(region=region)
-        img.save('dummy.png')
-        return img
-
     def sticker_page(self):
         '''切換到貼圖頁'''
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         pyautogui.moveTo((900, 65))
@@ -72,7 +67,7 @@ class Sticker(object):
 
     def emoji_page(self):
         '''切換到表情貼頁'''
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         pyautogui.moveTo((1015, 65))
@@ -81,7 +76,7 @@ class Sticker(object):
         self.page = 'emoji'
 
     def switch_page(self):
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
         
         if pyautogui.position().y >= 400:
@@ -100,7 +95,7 @@ class Sticker(object):
 
     def upper_move(self, direct):
         '''選擇上方貼圖/表情貼'''
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         curr_position = pyautogui.position()
@@ -128,7 +123,7 @@ class Sticker(object):
         pyautogui.click()
 
     def bottom_move(self, direct):
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         curr_position = pyautogui.position()
@@ -159,7 +154,7 @@ class Sticker(object):
         pyautogui.moveTo(position, _pause=False)
 
     def send_and_close(self):
-        if not self.check_window_is_line():
+        if self.get_page_title() != 'Sticker':
             return
 
         if pyautogui.position().y <= 400:
