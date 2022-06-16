@@ -85,50 +85,26 @@ class Sticker(object):
             self.to_bottom_first()
 
     def to_upper_first(self):
+        '''滑鼠移動到上方第一個物件'''
         pyautogui.moveTo((44, 140))
 
     def to_bottom_first(self):
+        '''滑鼠移動到下方第一個物件'''
         if self.page == 'sticker':
             pyautogui.moveTo((80, 520))
         else:
             pyautogui.moveTo((75, 480))
 
-    def upper_move(self, direct):
+    def move_mouse(self, direct):
         '''選擇上方貼圖/表情貼'''
         if self.get_page_title() != 'Sticker':
             return
 
         curr_position = pyautogui.position()
         position = [curr_position.x, curr_position.y]
-        move_speed = 75
-        if direct == 'up':
-            position[1] -= move_speed
-        elif direct == 'down':
-            position[1] += move_speed
-        elif direct == 'left':
-            position[0] -= move_speed
-        elif direct == 'right':
-            position[0] += move_speed
-        else:
-            return
-
-        if position[0] <= 40:
-            return
-        if position[0] >= pyautogui.size()[0] - 40:
-            return
-        if position[1] >= 400:
-            return
-
-        pyautogui.moveTo(position, _pause=False)
-        pyautogui.click()
-
-    def bottom_move(self, direct):
-        if self.get_page_title() != 'Sticker':
-            return
-
-        curr_position = pyautogui.position()
-        position = [curr_position.x, curr_position.y]
-        if self.page == 'emoji':
+        if curr_position.y <= 400:
+            move_speed = 75
+        elif self.page == 'emoji':
             move_speed = 96
         else:
             move_speed = 175
@@ -148,12 +124,13 @@ class Sticker(object):
             return
         if position[0] >= pyautogui.size()[0] - 40:
             return
-        if position[1] <= 400:
-            return
 
         pyautogui.moveTo(position, _pause=False)
+        if curr_position.y <= 400:
+            pyautogui.click()
 
     def send_and_close(self):
+        '''發送貼圖並關閉貼圖視窗'''
         if self.get_page_title() != 'Sticker':
             return
 

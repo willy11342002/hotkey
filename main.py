@@ -14,17 +14,11 @@ def main():
     keyboard.add_hotkey('tab', sticker.switch_page)
     keyboard.add_hotkey('enter', sticker.send_and_close)
 
-    # 監聽上方按鈕切換
-    keyboard.add_hotkey('shift + up', lambda: sticker.upper_move('up'))
-    keyboard.add_hotkey('shift + down', lambda: sticker.upper_move('down'))
-    keyboard.add_hotkey('shift + left', lambda: sticker.upper_move('left'))
-    keyboard.add_hotkey('shift + right', lambda: sticker.upper_move('right'))
-
-    # 監聽下方按鈕切換
-    keyboard.add_hotkey('shift + up', lambda: sticker.bottom_move('up'))
-    keyboard.add_hotkey('shift + down', lambda: sticker.bottom_move('down'))
-    keyboard.add_hotkey('shift + left', lambda: sticker.bottom_move('left'))
-    keyboard.add_hotkey('shift + right', lambda: sticker.bottom_move('right'))
+    # 監聽選擇貼圖
+    keyboard.add_hotkey('up', lambda: sticker.move_mouse('up'))
+    keyboard.add_hotkey('down', lambda: sticker.move_mouse('down'))
+    keyboard.add_hotkey('left', lambda: sticker.move_mouse('left'))
+    keyboard.add_hotkey('right', lambda: sticker.move_mouse('right'))
 
     # 開始監聽
     keyboard.wait()
