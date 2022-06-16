@@ -24,7 +24,7 @@ def main():
     keyboard.add_hotkey('ctrl + down', lambda: sticker.bottom_move('down'))
     keyboard.add_hotkey('ctrl + left', lambda: sticker.bottom_move('left'))
     keyboard.add_hotkey('ctrl + right', lambda: sticker.bottom_move('right'))
-    keyboard.add_hotkey('enter', lambda: pyautogui.click() or pyautogui.press('esc'))
+    keyboard.add_hotkey('enter', sticker.send_and_close)
 
     # 開始監聽
     keyboard.wait()

@@ -157,3 +157,13 @@ class Sticker(object):
             return
 
         pyautogui.moveTo(position, _pause=False)
+
+    def send_and_close(self):
+        if not self.check_window_is_line():
+            return
+
+        if pyautogui.position().y <= 400:
+            return
+
+        pyautogui.click()
+        pyautogui.press('esc')
