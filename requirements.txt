@@ -1,3 +1,5 @@
+# python==3.8
+
 # 螢幕截圖、圖像辨識
 opencv-python
 pyautogui

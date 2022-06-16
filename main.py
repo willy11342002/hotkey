@@ -1,38 +1,33 @@
 from sticker import Sticker
+import pyautogui
 import keyboard
-import win32gui
-import win32con
-import time
 
 
-sticker = Sticker()
-time.sleep(3)
-sticker.open_sticker_window()
-time.sleep(1)
-sticker.maximize_top_window()
-time.sleep(1)
-sticker.shot_top_window()
+def main():
+    sticker = Sticker()
 
-# while True:
-#     try:
-#         position = pyautogui.locateOnScreen('icons/test.png', confidence=0.7)
-#         position = pyautogui.center(position)
-#         print(position)
-#         break
-#     except TypeError as e:
-#         continue
+    # 監聽快速鍵啟動程式
+    keyboard.add_hotkey('ctrl + /', sticker.start)
+    keyboard.add_hotkey('space', lambda: print(pyautogui.position()))
 
-# time.sleep(2)
+    # 監聽上方按鈕切換
+    keyboard.add_hotkey('ctrl + tab', sticker.switch_upper_page)
+    keyboard.add_hotkey('ctrl + up', lambda: sticker.upper_move('up'))
+    keyboard.add_hotkey('ctrl + down', lambda: sticker.upper_move('down'))
+    keyboard.add_hotkey('ctrl + left', lambda: sticker.upper_move('left'))
+    keyboard.add_hotkey('ctrl + right', lambda: sticker.upper_move('right'))
 
-# hwnd = win32gui.FindWindow(None, '宗錦')
+    # 監聽下方按鈕切換
+    keyboard.add_hotkey('tab', sticker.switch_bottom_page)
+    keyboard.add_hotkey('ctrl + up', lambda: sticker.bottom_move('up'))
+    keyboard.add_hotkey('ctrl + down', lambda: sticker.bottom_move('down'))
+    keyboard.add_hotkey('ctrl + left', lambda: sticker.bottom_move('left'))
+    keyboard.add_hotkey('ctrl + right', lambda: sticker.bottom_move('right'))
+    keyboard.add_hotkey('shift + enter', lambda: pyautogui.click() or pyautogui.press('esc'))
 
-# window_rect = win32gui.GetWindowRect(window_handle)
-# print(window_rect)
-
-# def main():
-#     keyboard.add_hotkey('windows + z', sticker.open_sticker_window)
-#     keyboard.wait()
+    # 開始監聽
+    keyboard.wait()
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
