@@ -1,7 +1,6 @@
 import pyautogui
 import win32gui
 import win32con
-import time
 
 
 class Sticker(object):
@@ -42,9 +41,7 @@ class Sticker(object):
         '''點開貼圖畫面'''
         if self.get_page_title() != 'Chat':
             return
-
-        with pyautogui.hold('ctrl'):
-            pyautogui.press('e')
+        pyautogui.hotkey('ctrl', 'e')
 
     def maximize_top_window(self):
         '''最大化最上層視窗'''
@@ -76,6 +73,7 @@ class Sticker(object):
         self.page = 'emoji'
 
     def switch_page(self):
+        '''切換選擇上方貼圖集/下方貼圖內容'''
         if self.get_page_title() != 'Sticker':
             return
         
@@ -96,7 +94,7 @@ class Sticker(object):
             pyautogui.moveTo((75, 480))
 
     def move_mouse(self, direct):
-        '''選擇上方貼圖/表情貼'''
+        '''選擇貼圖/表情貼'''
         if self.get_page_title() != 'Sticker':
             return
 

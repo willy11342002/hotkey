@@ -1,28 +1,51 @@
 from sticker import Sticker
+from hotkey import Hotkey
+from tray import SysTray
 import pyautogui
-import keyboard
+pyautogui.FAILSAFE = False
 
 
-def main():
-    sticker = Sticker()
+class App(object):
+    def __init__(self):
+        self.state = True
+        self.sticker = Sticker()
+        self.tray = SysTray(
+            title='LINE貼圖操作小工具',
+            state=self.state,
+            activate=self.activate,
+            deactivate=self.deactivate
+        )
 
-    # 監聽快速鍵啟動程式
-    keyboard.add_hotkey('ctrl + /', sticker.start)
-    keyboard.add_hotkey('space', lambda: print(pyautogui.position()))
-    keyboard.add_hotkey('f2', sticker.sticker_page)
-    keyboard.add_hotkey('f3', sticker.emoji_page)
-    keyboard.add_hotkey('tab', sticker.switch_page)
-    keyboard.add_hotkey('enter', sticker.send_and_close)
+        self.dic_hotkey = {
+            # 監聽快速鍵啟動程式
+            'ctrl + /': self.sticker.start,
+            'space': lambda: print(pyautogui.position()),
+            'f2': self.sticker.sticker_page,
+            'f3': self.sticker.emoji_page,
+            'tab': self.sticker.switch_page,
+            'enter': self.sticker.send_and_close,
 
-    # 監聽選擇貼圖
-    keyboard.add_hotkey('up', lambda: sticker.move_mouse('up'))
-    keyboard.add_hotkey('down', lambda: sticker.move_mouse('down'))
-    keyboard.add_hotkey('left', lambda: sticker.move_mouse('left'))
-    keyboard.add_hotkey('right', lambda: sticker.move_mouse('right'))
+            # 監聽選擇貼圖
+            'up': lambda: self.sticker.move_mouse('up'),
+            'down': lambda: self.sticker.move_mouse('down'),
+            'left': lambda: self.sticker.move_mouse('left'),
+            'right': lambda: self.sticker.move_mouse('right'),
+        }
 
-    # 開始監聽
-    keyboard.wait()
+    def activate(self):
+        '''開始監聽程式'''
+        self.hotkey = Hotkey(self.dic_hotkey)
+        self.hotkey.start()
+
+    def deactivate(self):
+        '''暫停監聽程式'''
+        self.hotkey.stop()
+
+    def run(self):
+        '''主要進入點'''
+        self.tray.run()
 
 
 if __name__ == '__main__':
-    main()
+    app = App()
+    app.run()

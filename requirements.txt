@@ -5,8 +5,7 @@ opencv-python
 pyautogui
 
 # UI 相關
-pygubu
-pybugu-designer
+pystray
 
 # 系統操作
 keyboard
