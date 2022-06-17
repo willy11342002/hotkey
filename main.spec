@@ -13,7 +13,9 @@ a = Analysis(
     ['main.py'],
     pathex=[Path(SPECPATH).absolute()],
     binaries=[],
-    datas=[],
+    datas=[
+        ('icon.png', '.')
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
