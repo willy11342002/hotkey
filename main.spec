@@ -14,7 +14,8 @@ a = Analysis(
     pathex=[Path(SPECPATH).absolute()],
     binaries=[],
     datas=[
-        ('icon.png', '.')
+        ('icon.png', '.'),
+        ('config.yaml', '.'),
     ],
     hiddenimports=[],
     hookspath=[],
