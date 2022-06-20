@@ -33,7 +33,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='LINE貼圖操作小工具',
+    name='快速鍵小工具',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -53,5 +53,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name=f'LINE貼圖操作小工具 V{VERSION}',
+    name=f'快速鍵小工具 V{VERSION}',
 )
