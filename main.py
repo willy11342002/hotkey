@@ -1,22 +1,39 @@
+from utils.pykeyboard import HotkeyListener
+from utils.pysystray import SysTray
 from sticker import Sticker
-from hotkey import Hotkey
-from tray import SysTray
 import pyautogui
 pyautogui.FAILSAFE = False
 
 
 class App(object):
     def __init__(self):
-        self.state = True
         self.sticker = Sticker()
-        self.tray = SysTray(
-            title='LINE貼圖操作小工具',
-            state=self.state,
-            activate=self.activate,
-            deactivate=self.deactivate
-        )
+        self.tray = SysTray('快速鍵小工具', [
+            {
+                'title': '中鍵',
+                'activate': self.middle_activate,
+                'deactivate': self.middle_deactivate,
+            },
+            {
+                'title': 'LINE',
+                'activate': self.line_activate,
+                'deactivate': self.line_deactivate,
+            },
+        ])
 
-        self.dic_hotkey = {
+
+    # 監聽中鍵快速鍵
+    def middle_activate(self):
+        self.middle_hotkey = HotkeyListener({
+            'win + alt': pyautogui.middleClick
+        })
+        self.middle_hotkey.start()
+    def middle_deactivate(self):
+        self.middle_hotkey.stop()
+
+    # 監聽LINE貼圖快速鍵
+    def line_activate(self):
+        self.line_hotkey = HotkeyListener({
             # 監聽快速鍵啟動程式
             'ctrl + /': self.sticker.start,
             'space': lambda: print(pyautogui.position()),
@@ -30,16 +47,10 @@ class App(object):
             'down': lambda: self.sticker.move_mouse('down'),
             'left': lambda: self.sticker.move_mouse('left'),
             'right': lambda: self.sticker.move_mouse('right'),
-        }
-
-    def activate(self):
-        '''開始監聽程式'''
-        self.hotkey = Hotkey(self.dic_hotkey)
-        self.hotkey.start()
-
-    def deactivate(self):
-        '''暫停監聽程式'''
-        self.hotkey.stop()
+        })
+        self.line_hotkey.start()
+    def line_deactivate(self):
+        self.line_hotkey.stop()
 
     def run(self):
         '''主要進入點'''

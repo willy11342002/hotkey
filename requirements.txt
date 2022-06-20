@@ -10,3 +10,6 @@ pystray
 # 系統操作
 keyboard
 pywin32
+
+# 設定檔讀寫
+PyYaml

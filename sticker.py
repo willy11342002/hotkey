@@ -10,7 +10,7 @@ class Sticker(object):
     target_class = 'Qt5152QWindowIcon'
     page = None
     def __init__(self):
-        self.cf = utils.Dict.load_yaml('config.yaml')
+        self.cf = utils.dict.Dict.load_yaml('config.yaml')
 
     def start(self):
         '''開啟貼圖視窗'''
@@ -28,16 +28,19 @@ class Sticker(object):
 
     def get_page_title(self):
         '''讀取最上層視窗，回傳以下內容["Line", "Sticker", "Chat", False]'''
-        hwnd = win32gui.GetForegroundWindow()
-        title = win32gui.GetWindowText(hwnd).strip()
-        cls = win32gui.GetClassName(hwnd)
-        if hwnd == self.mainwindow:
-            return 'Line'
-        elif title == 'LINE':
-            return 'Sticker'
-        elif cls == self.target_class:
-            return 'Chat'
-        else:
+        try:
+            hwnd = win32gui.GetForegroundWindow()
+            title = win32gui.GetWindowText(hwnd).strip()
+            cls = win32gui.GetClassName(hwnd)
+            if hwnd == self.mainwindow:
+                return 'Line'
+            elif title == 'LINE':
+                return 'Sticker'
+            elif cls == self.target_class:
+                return 'Chat'
+            else:
+                return False
+        except:
             return False
 
     def open_sticker_window(self):
