@@ -1,12 +1,12 @@
 # python==3.8
 
-# è¢å¹•æˆªåœ–ã€åœ–åƒè¾¨è­˜
+# ¿Ã¹õºI¹Ï¡B¹Ï¹³¿ëÃÑ
 opencv-python
 pyautogui
 
-# UI ç›¸é—œ
+# UI ¬ÛÃö
 pystray
 
-# ç³»çµ±æ“ä½œ
+# ¨t²Î¾Ş§@
 keyboard
 pywin32

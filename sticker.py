@@ -1,6 +1,7 @@
 import pyautogui
 import win32gui
 import win32con
+import utils
 
 
 class Sticker(object):
@@ -8,6 +9,8 @@ class Sticker(object):
     mainwindow = win32gui.FindWindow('Qt5152QWindowIcon', 'LINE')
     target_class = 'Qt5152QWindowIcon'
     page = None
+    def __init__(self):
+        self.cf = utils.Dict.load_yaml('config.yaml')
 
     def start(self):
         '''開啟貼圖視窗'''
@@ -77,21 +80,21 @@ class Sticker(object):
         if self.get_page_title() != 'Sticker':
             return
         
-        if pyautogui.position().y >= 400:
+        if pyautogui.position().y >= self.cf.SPLIT_LINE:
             self.to_upper_first()
         else:
             self.to_bottom_first()
 
     def to_upper_first(self):
         '''滑鼠移動到上方第一個物件'''
-        pyautogui.moveTo((44, 140))
+        pyautogui.moveTo(self.cf.POSITION.TOP)
 
     def to_bottom_first(self):
         '''滑鼠移動到下方第一個物件'''
         if self.page == 'sticker':
-            pyautogui.moveTo((80, 520))
+            pyautogui.moveTo(self.cf.POSITION.STICKER)
         else:
-            pyautogui.moveTo((75, 480))
+            pyautogui.moveTo(self.cf.POSITION.EMOJI)
 
     def move_mouse(self, direct):
         '''選擇貼圖/表情貼'''
@@ -100,12 +103,12 @@ class Sticker(object):
 
         curr_position = pyautogui.position()
         position = [curr_position.x, curr_position.y]
-        if curr_position.y <= 400:
-            move_speed = 75
+        if curr_position.y <= self.cf.SPLIT_LINE:
+            move_speed = self.cf.SPEED.TOP
         elif self.page == 'emoji':
-            move_speed = 96
+            move_speed = self.cf.SPEED.EMOJI
         else:
-            move_speed = 175
+            move_speed = self.cf.SPEED.STICKER
 
         if direct == 'up':
             position[1] -= move_speed
@@ -118,13 +121,23 @@ class Sticker(object):
         else:
             return
 
-        if position[0] <= 40:
+        if position[0] <= self.cf.PADDING:
             return
-        if position[0] >= pyautogui.size()[0] - 40:
+        if position[0] >= pyautogui.size()[0] - self.cf.PADDING:
+            return
+        if (
+            curr_position[1] > self.cf.SPLIT_LINE and
+            position[1] <=  self.cf.SPLIT_LINE
+            ):
+            return
+        if (
+            curr_position[1] < self.cf.SPLIT_LINE and
+            position[1] >=  self.cf.SPLIT_LINE
+            ):
             return
 
         pyautogui.moveTo(position, _pause=False)
-        if curr_position.y <= 400:
+        if curr_position.y <= self.cf.SPLIT_LINE:
             pyautogui.click()
 
     def send_and_close(self):
@@ -132,7 +145,7 @@ class Sticker(object):
         if self.get_page_title() != 'Sticker':
             return
 
-        if pyautogui.position().y <= 400:
+        if pyautogui.position().y <= self.cf.SPLIT_LINE:
             return
 
         pyautogui.click()
