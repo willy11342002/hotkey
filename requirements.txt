@@ -1,5 +1,8 @@
 # python==3.8
 
+# 常用功能
+werdsazxc @ git+https://github.com/willy11342002/werdsazxc
+
 # 螢幕截圖、圖像辨識
 opencv-python
 pyautogui
