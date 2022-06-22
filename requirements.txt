@@ -1,18 +1,18 @@
 # python==3.8
 
-# 常用功能
+# collection of utils
 werdsazxc @ git+https://github.com/willy11342002/werdsazxc
 
-# 螢幕截圖、圖像辨識
+# for screenshot
 opencv-python
-pyautogui
 
-# UI 相關
+# for ui design
 pystray
 
-# 系統操作
+# for system control
+pyautogui
 keyboard
 pywin32
 
-# 設定檔讀寫
+# for config parsing
 PyYaml
